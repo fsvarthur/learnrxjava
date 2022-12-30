@@ -92,11 +92,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
                 new Video(675465, "Fracture", 5.0));
 
         ComposableListExercises<JSON> videoAndTitlePairs = new ComposableListExercises<JSON>();
-        
+
         newReleases.forEach(video -> {
-           videoAndTitlePairs.add(json("id", video.id, "title", video.title));
+            videoAndTitlePairs.add(json("id", video.id, "title", video.title));
         });
-        
+
         return videoAndTitlePairs;
     }
 
@@ -110,8 +110,8 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
 
     Why not create a helper method for these common operations?
 
-    If our ComposableList had a map() method, it would make projections easier. 
-    The map method accepts the projection function to be applied to each item 
+    If our ComposableList had a map() method, it would make projections easier.
+    The map method accepts the projection function to be applied to each item
     in the source List, and returns a List of the projected results.
 
     ComposableList.of(1,2,3).map(x -> x + 1) is equivalent to ComposableList.of(2,3,4)
@@ -127,75 +127,77 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // Note that you can apply a projectionFunction to a value like this:
             //  projectionFunction.apply(5)
             // ------------ INSERT CODE HERE! ----------------------------
-            
+            results.add(projectionFunction.apply(itemInList));
         });
-        
-        //return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+        return results;
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
-    
+
     /*
     Exercise 5: Use map() to project a ComposableList of videos into a stream of {id,title} JSON
 
-    Let's repeat exercise 3 and collect {id, title} JSON for each video in newReleases, but this time we'll 
+    Let's repeat exercise 3 and collect {id, title} JSON for each video in newReleases, but this time we'll
     use ComposableList's map method instead of the forEach method.
     */
     public static ComposableList<JSON> exercise5() {
         ComposableListExercises<Video> newReleases = ComposableListExercises.of(
-            new Video(70111470, "Die Hard", 4.0),
-            new Video(654356453, "Bad Boys", 5.0),
-            new Video(65432445, "The Chamber", 4.0),
-            new Video(675465, "Fracture", 5.0));
-         
-        // complete this expression 
-        // return newReleases.map(video -> 
-        throw new UnsupportedOperationException("Not implemented yet.");
+                new Video(70111470, "Die Hard", 4.0),
+                new Video(654356453, "Bad Boys", 5.0),
+                new Video(65432445, "The Chamber", 4.0),
+                new Video(675465, "Fracture", 5.0));
+
+        // complete this expression
+        return newReleases.map(video -> {
+            return json("id",video.id, "title",video.title);
+        });
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
     Exercise 6: Filtering Lists
 
-    Like projection, filtering a list is also a very common operation. To filter a list we apply a test to each 
+    Like projection, filtering a list is also a very common operation. To filter a list we apply a test to each
     item and collect the items that pass into a new list.
 
-    Use forEach() to loop through the videos in the newReleases list and, if a video has a rating of 5.0, add it 
+    Use forEach() to loop through the videos in the newReleases list and, if a video has a rating of 5.0, add it
     to the videos list.
      */
     public static ComposableList<Video> exercise6() {
         ComposableListExercises<Video> newReleases = ComposableListExercises.of(
-            new Video(
-                    70111470,
-                    "Die Hard",
-                    4.0
-            ),
-            new Video(
-                    654356453,
-                    "Bad Boys",
-                    5.0
-            ),
-            new Video(
-                    65432445,
-                    "The Chamber",
-                    4.0
-            ),
-            new Video(
-                    675465,
-                    "Fracture",
-                    5.0
-            ));
+                new Video(
+                        70111470,
+                        "Die Hard",
+                        4.0
+                ),
+                new Video(
+                        654356453,
+                        "Bad Boys",
+                        5.0
+                ),
+                new Video(
+                        65432445,
+                        "The Chamber",
+                        4.0
+                ),
+                new Video(
+                        675465,
+                        "Fracture",
+                        5.0
+                ));
 
         ComposableListExercises<Video> highRatedVideos = new ComposableListExercises<Video>();
 
         newReleases.forEach(video -> {
-            // Insert code here that adds a video to the highRatedVideos list
-            // if it has a rating of 5.0.
-
+            if (video.rating == 5.0) {
+                highRatedVideos.add(video);
+            }
         });
-        
-        // return highRatedVideos;
-        throw new UnsupportedOperationException("Not implemented yet.");        
+
+        return highRatedVideos;
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
-    
+
     /*
     Exercise 7: Implement filter()
 
@@ -221,78 +223,78 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // Note: you can apply the predicateFunction to a value like this:
             // predicateFunction.test(5)
             // ------------ INSERT CODE HERE! ----------------------------
-
+            if (predicateFunction.test(itemInList)) results.add(itemInList);
         });
 
-        // return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return results;
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
     Exercise 8: Query Data by Chaining Method Calls
 
-    The map() and filter() functions let us express what data we want without requiring us to specify how 
+    The map() and filter() functions let us express what data we want without requiring us to specify how
     the data is collected. They can also be combined to create more complex queries.
     In this Exercise, we will chain map and filter to collect the IDs of videos that have a rating of 5.0.
 
      */
     public static ComposableList<Integer> exercise8() {
         ComposableListExercises<Video> newReleases
-            = ComposableListExercises.of(
-                    new Video(
-                            70111470,
-                            "Die Hard",
-                            4.0
-                    ),
-                    new Video(
-                            654356453,
-                            "Bad Boys",
-                            5.0
-                    ),
-                    new Video(
-                            65432445,
-                            "The Chamber",
-                            4.0
-                    ),
-                    new Video(
-                            675465,
-                            "Fracture",
-                            5.0
-                    ));
+                = ComposableListExercises.of(
+                new Video(
+                        70111470,
+                        "Die Hard",
+                        4.0
+                ),
+                new Video(
+                        654356453,
+                        "Bad Boys",
+                        5.0
+                ),
+                new Video(
+                        65432445,
+                        "The Chamber",
+                        4.0
+                ),
+                new Video(
+                        675465,
+                        "Fracture",
+                        5.0
+                ));
 
         // ------------ INSERT CODE HERE! -----------------------------------
         // Chain the filter and map functions to select the id of all videos
         // with a rating of 5.0.
         // ------------ INSERT CODE HERE! -----------------------------------
-        //return newReleases // Complete this expression
+        return newReleases.filter(T -> T.rating >= 5.0).map(video -> video.id);
 
-        throw new UnsupportedOperationException("Not implemented yet.");
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
     Exercise 9: Querying Trees
 
-    Chaining together map() and filter() gives us a lot of expressive power. These high level functions let us 
-    express _what_ data we want, instead of specifying _how_ we want it retrieved. Queries written with map and 
-    filter are general enough to be applied to any data source including Lists, Java 8 Streams, and Reactive Streams. 
-    That means that our queries can easily be modified to run in parallel or asynchronously simply by switching 
+    Chaining together map() and filter() gives us a lot of expressive power. These high level functions let us
+    express _what_ data we want, instead of specifying _how_ we want it retrieved. Queries written with map and
+    filter are general enough to be applied to any data source including Lists, Java 8 Streams, and Reactive Streams.
+    That means that our queries can easily be modified to run in parallel or asynchronously simply by switching
     the underlying data source from a List to a Java 8 Parallel Stream or an Rx Observable respectively.
 
-    In addition to flat lists, sometimes we need to query Trees. In the exercise below, we will use two nested 
+    In addition to flat lists, sometimes we need to query Trees. In the exercise below, we will use two nested
     forEach() calls to retrieve the video IDs from each movieList and accumulate the results into a new List.
      */
     public static ComposableList<Integer> exercise9() {
         ComposableListExercises<MovieList> movieLists = ComposableListExercises.of(
-            new MovieList(
-                "New Releases",
-                ComposableListExercises.of(
-                        new Video(70111470, "Die Hard", 4.0),
-                        new Video(654356453, "Bad Boys", 5.0))),
-            new MovieList(
-                "Dramas",
-                ComposableListExercises.of(
-                        new Video(65432445, "The Chamber", 4.0),
-                        new Video(675465, "Fracture", 5.0))));
+                new MovieList(
+                        "New Releases",
+                        ComposableListExercises.of(
+                                new Video(70111470, "Die Hard", 4.0),
+                                new Video(654356453, "Bad Boys", 5.0))),
+                new MovieList(
+                        "Dramas",
+                        ComposableListExercises.of(
+                                new Video(65432445, "The Chamber", 4.0),
+                                new Video(675465, "Fracture", 5.0))));
 
         ComposableListExercises<Integer> allVideoIdsInMovieLists = new ComposableListExercises<Integer>();
 
@@ -300,20 +302,21 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         // Use two nested forEach loops to flatten the movieLists into a list of
         // video ids.
         // ------------   INSERT CODE HERE!  -----------------------------------
-        //return allVideoIdsInMovieLists;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        movieLists.forEach(video -> video.videos.forEach(video1 -> allVideoIdsInMovieLists.add(video1.id)));
+        return allVideoIdsInMovieLists;
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
-    
+
     /*
     Exercise 10: Implement concatMap()
 
-    To flatten trees with nested forEach expressions we accumlate the results in a new flat list. Querying a List 
-    of data from a Tree is a very common operation. Ideally we'd be able to use a helper function to do the heavy 
-    lifting for us. 
+    To flatten trees with nested forEach expressions we accumlate the results in a new flat list. Querying a List
+    of data from a Tree is a very common operation. Ideally we'd be able to use a helper function to do the heavy
+    lifting for us.
 
-    Let's implement the concatMap() method for List. Like map(), the concatMap() function applies a projection 
-    function to each item in a list. However the projection function passed to concatMap tranforms each individual 
-    value into a _list of values_, creating a tree structure. Before returning the tree, the concatMap method 
+    Let's implement the concatMap() method for List. Like map(), the concatMap() function applies a projection
+    function to each item in a list. However the projection function passed to concatMap tranforms each individual
+    value into a _list of values_, creating a tree structure. Before returning the tree, the concatMap method
     flattens the tree by concatenating each inner list together in order. Here's an example of concatMap in action:
 
     ComposableList
@@ -326,9 +329,9 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     is equivalent to
 
     ComposableList.of(0, 10, 20, 100, 110, 120, 200, 210, 220)
-     */   
+     */
     public <R> ComposableList<R> concatMap(
-        Function<T, ComposableList<R>> projectionFunctionThatReturnsList) {
+            Function<T, ComposableList<R>> projectionFunctionThatReturnsList) {
         ComposableListExercises<R> results = new ComposableListExercises<R>();
         for (T itemInList : this) {
             // ------------ INSERT CODE HERE! ----------------------------
@@ -338,11 +341,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // Note that you can apply a projectionFunction to a value like this:
             // projectionFunctionThatReturnsList.apply(5)
             // ------------ INSERT CODE HERE! ----------------------------
-
+            projectionFunctionThatReturnsList.apply(itemInList).forEach(video -> results.add(video));
         }
-        
-        //return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+        return results;
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
     
     /*
